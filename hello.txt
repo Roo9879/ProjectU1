@@ -1,0 +1,5 @@
+hello, this is an intro file into what I have done so far
+1) i installed the JDK and chose intellij 
+2) I generated an ssh key to link to my git profile 
+3) i then initialised my git repo for my project 
+4) currently making meaningful git commits
