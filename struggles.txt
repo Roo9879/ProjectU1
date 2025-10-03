@@ -1,0 +1,3 @@
+This is a quick overview of the struggles i have had during the project so far
+	Find it hard to remember the exact commands for what I want to do 
+	A few technical issues here and there which slow down progress
