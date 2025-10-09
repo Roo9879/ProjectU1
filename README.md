@@ -49,7 +49,7 @@ Project Structure:
               FinCoreCLI.class
    src
       src.iml
-      src
+      main
           FinCoreCLI.java
   
 
