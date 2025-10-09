@@ -80,7 +80,9 @@ public class FinCoreCLI {
         // adding deposit amount to balance and outputting to user
         currentBalance += depositAmount;
         System.out.println(" ");
-        System.out.println("Deposit successful! New balance: £" + currentBalance);
+        System.out.println("Deposit successful!");
+        System.out.println("Amount deposited: £" + depositAmount);
+        System.out.println("Your new balance is: £" + currentBalance);
         return currentBalance;
     }
 
@@ -109,7 +111,9 @@ public class FinCoreCLI {
                     // actual withdrawal calculation and output to user
                     currentBalance -= withdrawalAmount;
                     System.out.println(" ");
-                    System.out.println("Withdrawal successful! New balance: £" + currentBalance);
+                    System.out.println("Withdrawal successful!");
+                    System.out.println("Amount withdrawn: £" + withdrawalAmount);
+                    System.out.println("Your new balance is: £" + currentBalance);
                     return currentBalance;
                 }
             } catch(NumberFormatException e){
