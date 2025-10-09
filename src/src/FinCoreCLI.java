@@ -33,8 +33,8 @@ public class FinCoreCLI {
                 case "1": //deposit
                     currentBalance = makeDeposit(scanner, currentBalance);
                     break;
-                case "2":
-                    //withdraw
+                case "2": //withdraw
+                    currentBalance = makeWithdrawal(scanner, currentBalance);
                     break;
                 case "3":
                     //check balance
@@ -55,7 +55,7 @@ public class FinCoreCLI {
         int depositAmount = 0;
         while (!valid) {
             System.out.println(" ");
-            System.out.println("Enter your amount to deposit (or 'x' to cancel): £");
+            System.out.print("Enter your amount to deposit (or 'x' to cancel): £");
             String input = scanner.nextLine();
 
             // check for cancel option
@@ -83,4 +83,40 @@ public class FinCoreCLI {
         System.out.println("Deposit successful! New balance: £" + currentBalance);
         return currentBalance;
     }
+
+    public static int makeWithdrawal(Scanner scanner, int currentBalance) {
+        while (true) {
+            System.out.println(" ");
+            System.out.print("Enter your amount to withdraw (or 'x' to cancel): £");
+            String input = scanner.nextLine();
+
+            //check for cancel option
+            if (input.equalsIgnoreCase("x")) {
+                System.out.println(" ");
+                System.out.println("Withdrawal cancelled, returning to main menu");
+                return currentBalance;
+            }
+            // parsing string and validation steps
+            try{
+                int withdrawalAmount = Integer.parseInt(input);
+                if(withdrawalAmount <=0){
+                    System.out.println("Please enter a positive integer");
+                } else if(withdrawalAmount > currentBalance){
+                    // withdrawal amount must be smaller than current balance
+                    // otherwise would go into -ves
+                    System.out.println("Insufficient funds. Your current balance is £" + currentBalance);
+                } else {
+                    // actual withdrawal calculation and output to user
+                    currentBalance -= withdrawalAmount;
+                    System.out.println(" ");
+                    System.out.println("Withdrawal successful! New balance: £" + currentBalance);
+                    return currentBalance;
+                }
+            } catch(NumberFormatException e){
+                System.out.println("Invalid input. Please try again and enter a number");
+            }
+
+        }
+    }
 }
+
