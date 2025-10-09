@@ -9,7 +9,6 @@ public class FinCoreCLI {
 
         System.out.println(" ");
         System.out.println("Welcome to FinCore CLI Banking!");
-        System.out.println("Application initialised successfully");
         System.out.println(" ");
 
         System.out.println("Account Holder: " + accountHolderName);
@@ -36,8 +35,8 @@ public class FinCoreCLI {
                 case "2": //withdraw
                     currentBalance = makeWithdrawal(scanner, currentBalance);
                     break;
-                case "3":
-                    //check balance
+                case "3": //check balance
+                    checkBalance(currentBalance, accountHolderName);
                     break;
                 case "4": //exit
                     System.out.println(" ");
@@ -106,7 +105,8 @@ public class FinCoreCLI {
                 } else if(withdrawalAmount > currentBalance){
                     // withdrawal amount must be smaller than current balance
                     // otherwise would go into -ves
-                    System.out.println("Insufficient funds. Your current balance is £" + currentBalance);
+                    System.out.println("Insufficient funds.");
+                    System.out.println("Your current balance is £" + currentBalance);
                 } else {
                     // actual withdrawal calculation and output to user
                     currentBalance -= withdrawalAmount;
@@ -121,6 +121,13 @@ public class FinCoreCLI {
             }
 
         }
+    }
+
+    public static void checkBalance(int currentBalance, String accountHolderName) {
+        System.out.println(" ");
+        System.out.println("=== Account Balance ===");
+        System.out.println("Account Holder: " + accountHolderName);
+        System.out.println("Current Balance: £" + currentBalance);
     }
 }
 
