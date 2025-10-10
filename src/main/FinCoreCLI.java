@@ -22,7 +22,7 @@ public class FinCoreCLI {
             System.out.println("2. Withdraw");
             System.out.println("3. Check Balance");
             System.out.println("4. Exit");
-            System.out.println("Please select an option (1-4): ");
+            System.out.println("Please select an option (input number 1-4): ");
             option = scanner.nextLine();
 
             switch (option) {
@@ -39,7 +39,7 @@ public class FinCoreCLI {
                     System.out.println("\nThank you for using FinCore CLI Banking!");
                     break;
                 default: //invalid choices
-                    System.out.println("Invalid choice. Please try again");
+                    System.out.println("Invalid choice. Please try again and enter a number between 1 and 4.");
                     break;
             }
         } while (!option.equals("4"));
