@@ -1,9 +1,9 @@
 Project Overview:
-* This repo is for my JSE Project 1: Building and Testing in Java. We are building a budget management application
+* This repo is for my JSE Project 1: Building and Testing in Java. We are building a banking management application
 * our final deliverable will be a fully functional application with comprehensive documentation and a test suite, suitable for enterprise organisations, providing practical product delivery experience
 
 * Task 1: Setting up Java environment
-* Task 2:  Implement logic
+* Task 2: Implement logic
 * Task 3: Re-architect your application
 * Task 4: Organise your application
 * Task 5: Enhance your application
@@ -49,7 +49,7 @@ Project Structure:
               FinCoreCLI.class
    src
       src.iml
-      src
+      main
           FinCoreCLI.java
   
 
