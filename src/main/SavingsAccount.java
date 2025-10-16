@@ -11,8 +11,8 @@ public class SavingsAccount extends Account {
         return interestRate;
     }
 
-    public void setInterestRate() {
-        this.interestRate = interestRate;
+    public void setInterestRate(double rate) {
+        this.interestRate = rate;
     }
 
     public void addInterest() {

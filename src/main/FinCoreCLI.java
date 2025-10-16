@@ -3,20 +3,33 @@ import java.util.Scanner;
 public class FinCoreCLI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        //creating objects of classes
-        Account account = new Account("Jane Doe", 1000); //normal account
-        Account account2 = new CheckingAccount("John Doe", 500, 200); // checking account
-        Account account3 = new SavingsAccount("Jacob Doe", 2000, 1.25); //savings account
-
         ServiceHandler handler = new ServiceHandler(scanner);
+        AccountManager accountManager = new AccountManager();
+
+        //creating bank accounts
+        accountManager.addAccount(new Account("Jane Doe", 1000)); //normal account
+        accountManager.addAccount(new CheckingAccount("John Doe", 500, 200)); // checking account
+        accountManager.addAccount(new SavingsAccount("Jacob Doe", 2000, 1.25));//savings account
 
         System.out.println("\nWelcome to FinCore CLI Banking!");
 
-        System.out.println("\nAccount Holder: " + account.getAccountHolderName());
-        System.out.println("Account Number: " + account.getAccountNumber());
+        //let user select account by name
+        Account currentAccount = null;
+        while (currentAccount == null) {
+            System.out.print("\nEnter account holder name to access your account: ");
+            String name = scanner.nextLine();
+            currentAccount = accountManager.findAccountByName(name);
+            if (currentAccount == null) {
+                System.out.println("Account not found. PLease try again.");
+            }
+        }
 
-        System.out.println("Initial Balance: £" + account.getCurrentBalance());
+        //Display basic account info
+        System.out.println("\nAccount Holder: " + currentAccount.getAccountHolderName());
+        System.out.println("Account Number: " + currentAccount.getAccountNumber());
+        System.out.println("Initial Balance: £" + currentAccount.getCurrentBalance());
 
+        //main menu display
         String option;
 
         do {
@@ -30,13 +43,13 @@ public class FinCoreCLI {
 
             switch (option) {
                 case "1": //deposit
-                    handler.deposit(account);
+                    handler.deposit(currentAccount);
                     break;
                 case "2": //withdraw
-                    handler.withdraw(account);
+                    handler.withdraw(currentAccount);
                     break;
                 case "3": //check balance
-                    handler.checkBalance(account);
+                    handler.checkBalance(currentAccount);
                     break;
                 case "4": //exit
                     System.out.println("\nThank you for using FinCore CLI Banking!");
@@ -46,5 +59,6 @@ public class FinCoreCLI {
                     break;
             }
         } while (!option.equals("4"));
+        scanner.close();
     }
 }

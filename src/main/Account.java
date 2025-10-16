@@ -32,6 +32,10 @@ public class Account {
         this.accountHolderName = name;
     }
 
+    protected void setCurrentBalance(double balance) {
+        this.currentBalance = balance;
+    }
+
     //Account methods: Deposit, withdraw, check balance
     public void makeDeposit(double amount) {
         if (amount <= 0 ) {

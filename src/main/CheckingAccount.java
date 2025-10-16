@@ -10,16 +10,23 @@ public class CheckingAccount extends Account {
         return overdraftLimit;
     }
 
-    public void setOverdraftLimit() {
-        this.overdraftLimit = overdraftLimit;
+    public void setOverdraftLimit(double limit) {
+        this.overdraftLimit = limit;
     }
 
     @Override //override withdrawal to allow overdraft
     public void makeWithdrawal(double amount) {
-        if (amount > getCurrentBalance() + overdraftLimit) {
-            System.out.println("Error: Exceeded overdraft limit!");
+        if (amount <= 0) {
+            System.out.println("Withdrawal amount must be postive");
+        } else if (amount > getCurrentBalance() + overdraftLimit) {
+            System.out.println("Exceeded overdraft limit! Max allowed: £" + (getCurrentBalance() + overdraftLimit));
         } else {
-            super.makeWithdrawal(amount); //allows balance to go negative within overdraft
+            //allow balance to go -ve up t overdraft limit
+            double newBalance = getCurrentBalance() - amount;
+            setCurrentBalance(newBalance);
+            System.out.println("\nWithdrawal successful!");
+            System.out.println("Amount withdrawn: £" + amount);
+            System.out.println("Your new balance is: £" + newBalance);
         }
     }
 }
