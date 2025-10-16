@@ -1,19 +1,19 @@
 import java.util.Scanner;
 
-// === TRY GENERATE, RIGHT CLICK  ===
-
-
 public class FinCoreCLI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         //creating objects of classes
-        Account account = new Account("Jane Doe", 1000);
+        Account account = new Account("Jane Doe", 1000); //normal account
+        Account account2 = new CheckingAccount("John Doe", 500, 200); // checking account
+        Account account3 = new SavingsAccount("Jacob Doe", 2000, 1.25); //savings account
+
         ServiceHandler handler = new ServiceHandler(scanner);
 
         System.out.println("\nWelcome to FinCore CLI Banking!");
 
         System.out.println("\nAccount Holder: " + account.getAccountHolderName());
-        System.out.println("\nAccount Number: " + account.getAccountNumber());
+        System.out.println("Account Number: " + account.getAccountNumber());
 
         System.out.println("Initial Balance: £" + account.getCurrentBalance());
 
