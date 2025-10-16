@@ -38,6 +38,21 @@ public class ServiceHandler {
     }
 
     public void checkBalance(Account account) {
-        account.checkBalance(account.getCurrentBalance(), account.getAccountHolderName(), account.getAccountNumber());
+        System.out.println("\n=== Account Balance ===");
+        System.out.println("Account Holder: " + account.getAccountHolderName());
+        System.out.println("Current Balance: "+ account.getCurrentBalance());
+
+        // show overdraft for checking account
+        if (account instanceof CheckingAccount) {
+            CheckingAccount chk = (CheckingAccount) account;
+            System.out.println("Overdraft limit: £" + chk.getOverdraftLimit());
+            System.out.println("Available Funds: £" + (account.getCurrentBalance() + chk.getOverdraftLimit()));
+        }
+
+        //show interest rate for savings account
+        if (account instanceof SavingsAccount) {
+            SavingsAccount sav = (SavingsAccount) account;
+            System.out.println("Interest Rate: " + sav.getInterestRate() + "%");
+        }
     }
 }
