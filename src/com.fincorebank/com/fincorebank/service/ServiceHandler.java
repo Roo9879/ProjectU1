@@ -5,8 +5,9 @@ import com.fincorebank.model.*;
 
 public class ServiceHandler implements AccountService {
     private Scanner scanner;
+
     //constructor
-    public ServiceHandler (Scanner scanner) {
+    public ServiceHandler(Scanner scanner) {
         this.scanner = scanner;
     }
 
@@ -41,23 +42,36 @@ public class ServiceHandler implements AccountService {
             System.out.println("\nWithdrawal cancelled, returning to main menu");
         }
     }
-        @Override
-        public void checkBalance(Account account) {
-            System.out.println("\n=== com.fincorebank.model.Account Balance ===");
-            System.out.println("com.fincorebank.model.Account Holder: " + account.getAccountHolderName());
-            System.out.println("Current Balance: "+ account.getCurrentBalance());
 
-            // show overdraft for checking account
-            if (account instanceof CheckingAccount) {
-                CheckingAccount chk = (CheckingAccount) account;
-                System.out.println("Overdraft limit: £" + chk.getOverdraftLimit());
-                System.out.println("Available Funds: £" + (account.getCurrentBalance() + chk.getOverdraftLimit()));
-            }
+    @Override
+    public void checkBalance(Account account) {
+        System.out.println("\n=== Account Balance ===");
+        System.out.println("Account Holder: " + account.getAccountHolderName());
+        System.out.println("Current Balance: " + account.getCurrentBalance());
 
-            //show interest rate for savings account
-            if (account instanceof SavingsAccount) {
-                SavingsAccount sav = (SavingsAccount) account;
-                System.out.println("Interest Rate: " + sav.getInterestRate() + "%");
-            }
+        // show overdraft for checking account
+        if (account instanceof CheckingAccount) {
+            CheckingAccount chk = (CheckingAccount) account;
+            System.out.println("Overdraft limit: £" + chk.getOverdraftLimit());
+            System.out.println("Available Funds: £" + (account.getCurrentBalance() + chk.getOverdraftLimit()));
+        }
+
+        //show interest rate for savings account
+        if (account instanceof SavingsAccount) {
+            SavingsAccount sav = (SavingsAccount) account;
+            System.out.println("Interest Rate: " + sav.getInterestRate() + "%");
         }
     }
+
+    @Override
+    public void deleteAccount(Account account, DataStore dataStore) {
+        System.out.println("\n Are you sure you want to delete your account? (y/n): ");
+        String confirm = scanner.nextLine();
+        if (confirm.equalsIgnoreCase("y")) {
+            dataStore.deleteAccount(account.getAccountNumber());
+            System.out.println("Account deleted successfully");
+        } else {
+            System.out.println("Account deletion cancelled");
+        }
+    }
+}

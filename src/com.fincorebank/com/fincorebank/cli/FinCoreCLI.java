@@ -1,21 +1,21 @@
 package com.fincorebank.cli;
 
 import com.fincorebank.model.*;
-import com.fincorebank.service.AccountService;
-import com.fincorebank.service.ServiceHandler;
+import com.fincorebank.service.*;
 
 import java.util.Scanner;
 
 public class FinCoreCLI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        // initialise DataStore and ServiceHandler
         AccountService handler = new ServiceHandler(scanner);
-        AccountManager accountManager = new AccountManager();
+        DataStore dataStore = new InMemoryDataStore();
 
         //creating bank accounts
-        accountManager.addAccount(new Account("Jane Doe", 1000)); //normal account
-        accountManager.addAccount(new CheckingAccount("John Doe", 500, 200)); // checking account
-        accountManager.addAccount(new SavingsAccount("Jacob Doe", 2000, 1.25));//savings account
+        dataStore.addAccount(new Account("Jane Doe", 1000));//normal account
+        dataStore.addAccount(new CheckingAccount("John Doe", 500, 200)); // checking account
+        dataStore.addAccount(new SavingsAccount("Jacob Doe", 2000, 1.25));//savings account
 
         System.out.println("\nWelcome to FinCore CLI Banking!");
 
@@ -24,15 +24,15 @@ public class FinCoreCLI {
         while (currentAccount == null) {
             System.out.print("\nEnter account holder name to access your account: ");
             String name = scanner.nextLine();
-            currentAccount = accountManager.findAccountByName(name);
+            currentAccount = dataStore.findAccountByName(name);
             if (currentAccount == null) {
-                System.out.println("com.fincorebank.model.Account not found. PLease try again.");
+                System.out.println("Account not found. PLease try again.");
             }
         }
 
         //Display basic account info
-        System.out.println("\ncom.fincorebank.model.Account Holder: " + currentAccount.getAccountHolderName());
-        System.out.println("com.fincorebank.model.Account Number: " + currentAccount.getAccountNumber());
+        System.out.println("\nAccount Holder: " + currentAccount.getAccountHolderName());
+        System.out.println("Account Number: " + currentAccount.getAccountNumber());
         System.out.println("Initial Balance: £" + currentAccount.getCurrentBalance());
 
         //main menu display
@@ -44,7 +44,8 @@ public class FinCoreCLI {
             System.out.println("2. Withdraw");
             System.out.println("3. Check Balance");
             System.out.println("4. Exit");
-            System.out.println("Please select an option (input number 1-4): ");
+            System.out.println("5. Delete Account");
+            System.out.println("Please select an option (input number 1-5): ");
             option = scanner.nextLine();
 
             switch (option) {
@@ -59,6 +60,11 @@ public class FinCoreCLI {
                     break;
                 case "4": //exit
                     System.out.println("\nThank you for using FinCore CLI Banking!");
+                    break;
+                case "5": //delete account
+                    handler.deleteAccount(currentAccount, dataStore);
+                    System.out.println("\n Thank you for using FinCore CLI Banking! Goodbye!");
+                    option = "4"; //breaks loop and exits
                     break;
                 default: //invalid choices
                     System.out.println("Invalid choice. Please try again and enter a number between 1 and 4.");

@@ -27,7 +27,7 @@ public class SavingsAccount extends Account {
     public void makeWithdrawal(double amount) {
         //limit withdrawals for savings account
         if (amount > 1000) {
-            System.out.println("Withdrawal limit exceeded for Savings com.fincorebank.model.Account.");
+            System.out.println("Withdrawal limit exceeded for Savings Account.");
         } else {
             super.makeWithdrawal(amount);
         }

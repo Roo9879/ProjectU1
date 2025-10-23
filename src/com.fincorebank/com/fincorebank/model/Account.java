@@ -66,9 +66,9 @@ public class Account {
     }
 
     public void checkBalance(double currentBalance, String accountHolderName, int accountNumber) {
-        System.out.println("\n=== com.fincorebank.model.Account Balance ===");
-        System.out.println("com.fincorebank.model.Account Holder: " + accountHolderName);
-        System.out.println("com.fincorebank.model.Account Number: " + accountNumber);
+        System.out.println("\n=== Account Balance ===");
+        System.out.println("Account Holder: " + accountHolderName);
+        System.out.println("Account Number: " + accountNumber);
         System.out.println("Current Balance: £" + currentBalance);
     }
 }

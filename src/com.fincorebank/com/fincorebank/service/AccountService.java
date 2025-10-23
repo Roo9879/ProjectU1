@@ -6,4 +6,5 @@ public interface AccountService {
     void deposit(Account account);
     void withdraw (Account account);
     void checkBalance (Account account);
+    void deleteAccount(Account account, DataStore dataStore);
 }
