@@ -1,3 +1,5 @@
+package com.fincorebank.model;
+
 public class Account {
     private String accountHolderName;
     private int accountNumber;
@@ -36,7 +38,7 @@ public class Account {
         this.currentBalance = balance;
     }
 
-    //Account methods: Deposit, withdraw, check balance
+    //com.fincorebank.model.Account methods: Deposit, withdraw, check balance
     public void makeDeposit(double amount) {
         if (amount <= 0 ) {
             System.out.println("Amount must be positive.");
@@ -63,10 +65,10 @@ public class Account {
         }
     }
 
-    public static void checkBalance(double currentBalance, String accountHolderName, int accountNumber) {
-        System.out.println("\n=== Account Balance ===");
-        System.out.println("Account Holder: " + accountHolderName);
-        System.out.println("Account Number: " + accountNumber);
+    public void checkBalance(double currentBalance, String accountHolderName, int accountNumber) {
+        System.out.println("\n=== com.fincorebank.model.Account Balance ===");
+        System.out.println("com.fincorebank.model.Account Holder: " + accountHolderName);
+        System.out.println("com.fincorebank.model.Account Number: " + accountNumber);
         System.out.println("Current Balance: £" + currentBalance);
     }
 }

@@ -1,3 +1,5 @@
+package com.fincorebank.model;
+
 import java.util.ArrayList;
 
 public class AccountManager {

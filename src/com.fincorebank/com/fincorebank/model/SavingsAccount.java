@@ -1,3 +1,5 @@
+package com.fincorebank.model;
+
 public class SavingsAccount extends Account {
     private double interestRate;
 
@@ -18,14 +20,14 @@ public class SavingsAccount extends Account {
     public void addInterest() {
         double interest = getCurrentBalance() * interestRate / 100;
         makeDeposit(interest);
-        System.out.println("Interest of £" + interest + "added. New balance: £" + getCurrentBalance());
+        System.out.println("Interest of £" + interest + " added. New balance: £" + getCurrentBalance());
     }
 
     @Override
     public void makeWithdrawal(double amount) {
         //limit withdrawals for savings account
         if (amount > 1000) {
-            System.out.println("Withdrawal limit exceeded for Savings Account.");
+            System.out.println("Withdrawal limit exceeded for Savings com.fincorebank.model.Account.");
         } else {
             super.makeWithdrawal(amount);
         }

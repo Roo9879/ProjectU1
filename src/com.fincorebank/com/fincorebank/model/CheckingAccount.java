@@ -1,3 +1,5 @@
+package com.fincorebank.model;
+
 public class CheckingAccount extends Account {
     private double overdraftLimit;
 

@@ -46,11 +46,11 @@ Project Structure:
     out
       production
           src
-              FinCoreCLI.class
+              com.fincorebank.cli.FinCoreCLI.class
    src
       src.iml
       main
-          FinCoreCLI.java
+          com.fincorebank.cli.FinCoreCLI.java
   
 
 Requirements:

@@ -1,9 +1,15 @@
+package com.fincorebank.cli;
+
+import com.fincorebank.model.*;
+import com.fincorebank.service.AccountService;
+import com.fincorebank.service.ServiceHandler;
+
 import java.util.Scanner;
 
 public class FinCoreCLI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ServiceHandler handler = new ServiceHandler(scanner);
+        AccountService handler = new ServiceHandler(scanner);
         AccountManager accountManager = new AccountManager();
 
         //creating bank accounts
@@ -20,13 +26,13 @@ public class FinCoreCLI {
             String name = scanner.nextLine();
             currentAccount = accountManager.findAccountByName(name);
             if (currentAccount == null) {
-                System.out.println("Account not found. PLease try again.");
+                System.out.println("com.fincorebank.model.Account not found. PLease try again.");
             }
         }
 
         //Display basic account info
-        System.out.println("\nAccount Holder: " + currentAccount.getAccountHolderName());
-        System.out.println("Account Number: " + currentAccount.getAccountNumber());
+        System.out.println("\ncom.fincorebank.model.Account Holder: " + currentAccount.getAccountHolderName());
+        System.out.println("com.fincorebank.model.Account Number: " + currentAccount.getAccountNumber());
         System.out.println("Initial Balance: £" + currentAccount.getCurrentBalance());
 
         //main menu display

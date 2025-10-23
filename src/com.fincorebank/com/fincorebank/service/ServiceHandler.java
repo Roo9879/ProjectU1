@@ -1,12 +1,16 @@
-import java.util.Scanner;
+package com.fincorebank.service;
 
-public class ServiceHandler {
+import java.util.Scanner;
+import com.fincorebank.model.*;
+
+public class ServiceHandler implements AccountService {
     private Scanner scanner;
     //constructor
     public ServiceHandler (Scanner scanner) {
         this.scanner = scanner;
     }
 
+    @Override
     public void deposit(Account account) {
         System.out.print("\nEnter your amount to deposit (or 'x' to cancel) : £");
         String depositInput = scanner.nextLine();
@@ -22,6 +26,7 @@ public class ServiceHandler {
         }
     }
 
+    @Override
     public void withdraw(Account account) {
         System.out.print("\nEnter your amount to withdraw (or 'x' to cancel): £");
         String withdrawalInput = scanner.nextLine();
@@ -36,23 +41,23 @@ public class ServiceHandler {
             System.out.println("\nWithdrawal cancelled, returning to main menu");
         }
     }
+        @Override
+        public void checkBalance(Account account) {
+            System.out.println("\n=== com.fincorebank.model.Account Balance ===");
+            System.out.println("com.fincorebank.model.Account Holder: " + account.getAccountHolderName());
+            System.out.println("Current Balance: "+ account.getCurrentBalance());
 
-    public void checkBalance(Account account) {
-        System.out.println("\n=== Account Balance ===");
-        System.out.println("Account Holder: " + account.getAccountHolderName());
-        System.out.println("Current Balance: "+ account.getCurrentBalance());
+            // show overdraft for checking account
+            if (account instanceof CheckingAccount) {
+                CheckingAccount chk = (CheckingAccount) account;
+                System.out.println("Overdraft limit: £" + chk.getOverdraftLimit());
+                System.out.println("Available Funds: £" + (account.getCurrentBalance() + chk.getOverdraftLimit()));
+            }
 
-        // show overdraft for checking account
-        if (account instanceof CheckingAccount) {
-            CheckingAccount chk = (CheckingAccount) account;
-            System.out.println("Overdraft limit: £" + chk.getOverdraftLimit());
-            System.out.println("Available Funds: £" + (account.getCurrentBalance() + chk.getOverdraftLimit()));
-        }
-
-        //show interest rate for savings account
-        if (account instanceof SavingsAccount) {
-            SavingsAccount sav = (SavingsAccount) account;
-            System.out.println("Interest Rate: " + sav.getInterestRate() + "%");
+            //show interest rate for savings account
+            if (account instanceof SavingsAccount) {
+                SavingsAccount sav = (SavingsAccount) account;
+                System.out.println("Interest Rate: " + sav.getInterestRate() + "%");
+            }
         }
     }
-}
