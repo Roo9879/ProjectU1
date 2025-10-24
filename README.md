@@ -1,6 +1,6 @@
 Project Overview:
-* This repo is for my JSE Project 1: Building and Testing in Java. We are building a banking management application
-* our final deliverable will be a fully functional application with comprehensive documentation and a test suite, suitable for enterprise organisations, providing practical product delivery experience
+* This repo is for my JSE Project 1: Building and Testing in Java. I'm are building a banking management application
+* My final deliverable will be a fully functional application with comprehensive documentation and a test suite, suitable for enterprise organisations, providing practical product delivery experience
 
 * Task 1: Setting up Java environment
 * Task 2: Implement logic
@@ -12,14 +12,37 @@ Project Overview:
 === FinCore CLI Banking Application ===
 
 Application Overview:
-* FinCore CLI is a simple Java console application that simulates basic banking functions for a user account
+* FinCore CLI is a Java console-based application that allows users to perform essential financial opertions in a simple, text-based interface.
 
 Features:
 * Deposit funds
 * Withdraw funds
-* Check current account balance
+* Check account balance
 * Cancel transactions
-* Input validation and handling invalid inputs
+* Input validation and error handling
+* Delete accounts
+* Full CRUD support via a dedicated data store
+* Modular structure with interfaces for flexibility
+
+Project Structure:
+src/
+└── com/
+    └── fincorebank/
+        ├── cli/
+        │   └── FinCoreCLI.java               # Command-line interface (main entry point)
+        │
+        ├── model/
+        │   ├── Account.java                  # Base account class
+        │   ├── CheckingAccount.java          # Supports overdrafts
+        │   ├── SavingsAccount.java           # Supports interest rates
+        │
+        ├── service/
+        │   ├── AccountService.java           # Interface for account operations
+        │   ├── ServiceHandler.java           # Implements AccountService logic
+        │   ├── DataStore.java                # Interface for CRUD operations
+        │   ├── InMemoryDataStore.java        # In-memory implementation of DataStore
+        │
+        └── module-info.java                  # Defines module exports and dependencies
 
 How To Run:
 1) Clone repository
@@ -27,30 +50,20 @@ How To Run:
 3) Compile
 4) Run
 
-Usage:
-* Follow on-screen menu prompts to deposit, withdraw, check balance or exit
+How It Works:
+* When the program starts, it initialises a few example accounts in memory
+* The user selects their account by name
+* Through a simple menu, they can deposit, withdraw or check their balance
+* CRUD functionality allows for account deletion, after which the program exits gracefully
 
 Development Environment Setup:
 * JDK : Eclipse 25 JDK
 * Language : Java
 * IDE : IntelliJ IDEA
-* Build tools: Maven/Gradle?
+* Build tools: None but should use Gradle in future
 * Dependencies: JUnit to test code
 
-Project Structure:
-* ProjectU1 directory
-    .gitignore
-    hello.txt
-    struggles.txt
-    README.md
-    out
-      production
-          src
-              com.fincorebank.cli.FinCoreCLI.class
-   src
-      src.iml
-      main
-          com.fincorebank.cli.FinCoreCLI.java
+
   
 
 Requirements:
