@@ -3,14 +3,15 @@ package com.fincorebank.cli;
 import com.fincorebank.model.*;
 import com.fincorebank.service.*;
 
+import java.security.Provider;
 import java.util.Scanner;
 
 public class FinCoreCLI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         // initialise DataStore and ServiceHandler
-        AccountService handler = new ServiceHandler(scanner);
         DataStore dataStore = new InMemoryDataStore();
+        AccountService handler = new ServiceHandler(scanner, dataStore);
 
         //creating bank accounts
         dataStore.addAccount(new Account("Jane Doe", 1000));//normal account
@@ -26,7 +27,7 @@ public class FinCoreCLI {
             String name = scanner.nextLine();
             currentAccount = dataStore.findAccountByName(name);
             if (currentAccount == null) {
-                System.out.println("Account not found. PLease try again.");
+                System.out.println("Account not found. Please try again.");
             }
         }
 
@@ -45,7 +46,8 @@ public class FinCoreCLI {
             System.out.println("3. Check Balance");
             System.out.println("4. Exit");
             System.out.println("5. Delete Account");
-            System.out.println("Please select an option (input number 1-5): ");
+            System.out.println("6. View Transaction History");
+            System.out.println("Please select an option (input number 1-6): ");
             option = scanner.nextLine();
 
             switch (option) {
@@ -66,8 +68,16 @@ public class FinCoreCLI {
                     System.out.println("\n Thank you for using FinCore CLI Banking! Goodbye!");
                     option = "4"; //breaks loop and exits
                     break;
+                case "6":
+                    // ServiceHandler has showTransactionHistory, need to cast
+                    if (handler instanceof ServiceHandler) {
+                        ((ServiceHandler) handler).showTransactionHistory(currentAccount);
+                    } else {
+                        System.out.println("Transaction history not available");
+                    }
+                    break;
                 default: //invalid choices
-                    System.out.println("Invalid choice. Please try again and enter a number between 1 and 4.");
+                    System.out.println("Invalid choice. Please try again and enter a number between 1 and 6.");
                     break;
             }
         } while (!option.equals("4"));

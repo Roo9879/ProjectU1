@@ -1,35 +1,31 @@
 package com.fincorebank.service;
 
 import com.fincorebank.model.Account;
-import java.util.ArrayList;
-import java.util.List;
+import com.fincorebank.model.Transaction;
+import java.util.*;
 
 public class InMemoryDataStore implements DataStore{
-    private List<Account> accounts;
+    private Map<Integer, Account> accounts;
+    private Map<Integer, List<Transaction>> transactions;
 
     public InMemoryDataStore() {
-        this.accounts = new ArrayList<>();
+        this.accounts = new HashMap<>();
+        this.transactions = new HashMap<>();
     }
 
     @Override
     public void addAccount(Account account) {
-        accounts.add(account);
+        accounts.put(account.getAccountNumber(), account);
     }
 
     @Override
     public Account findAccountByNumber(int accountNumber) {
-        for (Account acc : accounts) {
-            if (acc.getAccountNumber() == accountNumber) {
-                return acc;
-            }
-
-        }
-        return null;
+        return accounts.get(accountNumber);
     }
 
     @Override
     public Account findAccountByName(String accountHolderName) {
-        for (Account acc : accounts) {
+        for (Account acc : accounts.values()) {
             if (acc.getAccountHolderName().equalsIgnoreCase(accountHolderName)) {
                 return acc;
             }
@@ -39,17 +35,37 @@ public class InMemoryDataStore implements DataStore{
 
     @Override
     public List<Account> getAllAccounts() {
-        return new ArrayList<>(accounts); //return copy for safety
+        return new ArrayList<>(accounts.values()); //creates a new list of accounts, can use for sorting and displaying. copy of account data
     }
 
     @Override
-    public void updateAccount(Account account) { }
-    //don't need anything in updateAccount as deposit, withdraw etc methods update it already
-    //but completes CRUD interface and can use it later when building on project
+    public void updateAccount(Account account) {
+        //replace existing entry (if exits)
+        accounts.put(account.getAccountNumber(), account);
+    }
+
 
     @Override
     public void deleteAccount(int accountNumber) {
-        accounts.removeIf(acc -> acc.getAccountNumber() == accountNumber);
-        // lambda expression - for each acc in list, check if account number = given account number, if yes then remove
+        accounts.remove(accountNumber);
+        transactions.remove(accountNumber); // removes transaction history for that account
+    }
+
+    //transaction specific methods:
+    public void addTransaction(int accountNumber, Transaction transaction) {
+        transactions.computeIfAbsent(accountNumber, k -> new ArrayList<>()).add(transaction);
+    }
+
+    public List<Transaction> getTransactionsForAccount(int accountNumber) {
+        return new ArrayList<>(transactions.getOrDefault(accountNumber, new ArrayList<>()));
+    }
+
+    //get transactions across all accounts, global
+    public List<Transaction> getAllTransactions() {
+        List<Transaction> all = new ArrayList<>();
+        for (List<Transaction> list : transactions.values()) { //returns all lists stored in the map (for each account)
+            all.addAll(list); //adds all transactions from each account to new list
+        }
+        return all;
     }
 }

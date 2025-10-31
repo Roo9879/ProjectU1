@@ -17,11 +17,13 @@ public class CheckingAccount extends Account {
     }
 
     @Override //override withdrawal to allow overdraft
-    public void makeWithdrawal(double amount) {
+    public boolean makeWithdrawal(double amount) {
         if (amount <= 0) {
             System.out.println("Withdrawal amount must be postive");
+            return false;
         } else if (amount > getCurrentBalance() + overdraftLimit) {
             System.out.println("Exceeded overdraft limit! Max allowed: £" + (getCurrentBalance() + overdraftLimit));
+            return false;
         } else {
             //allow balance to go -ve up t overdraft limit
             double newBalance = getCurrentBalance() - amount;
@@ -29,6 +31,7 @@ public class CheckingAccount extends Account {
             System.out.println("\nWithdrawal successful!");
             System.out.println("Amount withdrawn: £" + amount);
             System.out.println("Your new balance is: £" + newBalance);
+            return true;
         }
     }
 }

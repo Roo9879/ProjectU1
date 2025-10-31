@@ -24,12 +24,13 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public void makeWithdrawal(double amount) {
+    public boolean makeWithdrawal(double amount) {
         //limit withdrawals for savings account
         if (amount > 1000) {
             System.out.println("Withdrawal limit exceeded for Savings Account.");
+            return false;
         } else {
-            super.makeWithdrawal(amount);
+           return super.makeWithdrawal(amount);
         }
     }
 }

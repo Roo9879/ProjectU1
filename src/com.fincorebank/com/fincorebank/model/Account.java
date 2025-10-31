@@ -39,33 +39,37 @@ public class Account {
     }
 
     //com.fincorebank.model.Account methods: Deposit, withdraw, check balance
-    public void makeDeposit(double amount) {
+    public boolean makeDeposit(double amount) {
         if (amount <= 0 ) {
             System.out.println("Amount must be positive.");
-            return;
+            return false;
         }
         currentBalance += amount;
         System.out.println("\nDeposit successful!");
         System.out.println("Amount deposited: £" + amount);
         System.out.println("Your new balance is: £" + currentBalance);
+        return true; //returns true if deposit successful so adds to transaction list
     }
 
-    public void makeWithdrawal(double amount) {
+    public boolean makeWithdrawal(double amount) {
         if (amount <= 0) {
             System.out.println("Amount must be positive");
+            return false;
         } else if (amount > currentBalance) {
             System.out.println("Error: Insufficient funds");
             System.out.println("Attempted withdrawal: £" + amount);
             System.out.println("Your current balance is £" + currentBalance);
+            return false;
         } else {
             currentBalance -= amount;
             System.out.println("\nWithdrawal successful!");
             System.out.println("Amount withdrawn: £" + amount);
             System.out.println("Your new balance is: £" + currentBalance);
+            return true;
         }
     }
 
-    public void checkBalance(double currentBalance, String accountHolderName, int accountNumber) {
+    public void checkBalance() {
         System.out.println("\n=== Account Balance ===");
         System.out.println("Account Holder: " + accountHolderName);
         System.out.println("Account Number: " + accountNumber);

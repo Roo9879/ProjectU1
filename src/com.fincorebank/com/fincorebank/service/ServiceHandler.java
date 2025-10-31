@@ -1,14 +1,17 @@
 package com.fincorebank.service;
 
 import java.util.Scanner;
+import java.util.List;
 import com.fincorebank.model.*;
 
 public class ServiceHandler implements AccountService {
     private Scanner scanner;
+    private DataStore dataStore;
 
     //constructor
-    public ServiceHandler(Scanner scanner) {
+    public ServiceHandler(Scanner scanner, DataStore dataStore) {
         this.scanner = scanner;
+        this.dataStore = dataStore;
     }
 
     @Override
@@ -18,7 +21,13 @@ public class ServiceHandler implements AccountService {
         if (!depositInput.equalsIgnoreCase("x")) {
             try {
                 double depositAmount = Double.parseDouble(depositInput);
-                account.makeDeposit(depositAmount);
+                boolean success = account.makeDeposit(depositAmount);
+                if (success && dataStore instanceof InMemoryDataStore) {
+                    ((InMemoryDataStore) dataStore).addTransaction(
+                            account.getAccountNumber(),
+                            new Transaction(account.getAccountNumber(), depositAmount, "Deposit")
+                    );
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number");
             }
@@ -34,7 +43,13 @@ public class ServiceHandler implements AccountService {
         if (!withdrawalInput.equalsIgnoreCase("x")) {
             try {
                 double withdrawalAmount = Double.parseDouble(withdrawalInput);
-                account.makeWithdrawal(withdrawalAmount);
+                boolean success = account.makeWithdrawal(withdrawalAmount);
+                if (success && dataStore instanceof InMemoryDataStore) {
+                    ((InMemoryDataStore) dataStore).addTransaction(
+                            account.getAccountNumber(),
+                            new Transaction(account.getAccountNumber(), withdrawalAmount, "Withdrawal")
+                    );
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number");
             }
@@ -72,6 +87,25 @@ public class ServiceHandler implements AccountService {
             System.out.println("Account deleted successfully");
         } else {
             System.out.println("Account deletion cancelled");
+        }
+    }
+
+    public void showTransactionHistory(Account account) {
+        if (!(dataStore instanceof InMemoryDataStore)) {
+            System.out.println("Transaction history not supported for this data store");
+            return;
+        }
+        InMemoryDataStore store = (InMemoryDataStore) dataStore;
+        List<Transaction> history = store.getTransactionsForAccount(account.getAccountNumber());
+        if (history.isEmpty()) {
+            System.out.println("No transactions found for this account");
+            return;
+        }
+        //sort newest first
+        history.sort((a,b) -> b.getDateTime().compareTo(a.getDateTime()));
+        System.out.println("\n === Transaction History ===");
+        for (Transaction t : history) {
+            System.out.println(t);
         }
     }
 }
