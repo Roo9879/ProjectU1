@@ -7,4 +7,5 @@ public interface AccountService {
     void withdraw (Account account);
     void checkBalance (Account account);
     void deleteAccount(Account account, DataStore dataStore);
+    void showSortedTransactions(Account account, String sortOption);
 }

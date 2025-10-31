@@ -1,5 +1,6 @@
 package com.fincorebank.service;
 
+import java.util.Comparator;
 import java.util.Scanner;
 import java.util.List;
 import com.fincorebank.model.*;
@@ -7,6 +8,12 @@ import com.fincorebank.model.*;
 public class ServiceHandler implements AccountService {
     private Scanner scanner;
     private DataStore dataStore;
+
+    //comparators
+    public final Comparator<Transaction> byDate = Comparator.naturalOrder();
+    public final Comparator<Transaction> reverseDate = Comparator.comparing(Transaction::getDateTime).reversed();
+    public final Comparator<Transaction> byAmount = Comparator.comparing(Transaction::getAmount);
+    public final Comparator<Transaction> byType = Comparator.comparing(Transaction::getType);
 
     //constructor
     public ServiceHandler(Scanner scanner, DataStore dataStore) {
@@ -90,22 +97,39 @@ public class ServiceHandler implements AccountService {
         }
     }
 
-    public void showTransactionHistory(Account account) {
-        if (!(dataStore instanceof InMemoryDataStore)) {
-            System.out.println("Transaction history not supported for this data store");
+
+    @Override
+    public void showSortedTransactions(Account account, String sortOption) {
+        //decide which comparator to use based on user input
+        Comparator<Transaction> comparator;
+
+        switch(sortOption) {
+            case "1":
+                comparator = this.byDate; //chronological
+                break;
+            case "2":
+                comparator = this.reverseDate; //reverse chronological
+                break;
+            case "3":
+                comparator = this.byAmount; //amount ascending
+                break;
+            case "4":
+                comparator = this.byType; //type alphabetical
+                break;
+            default:
+                comparator = this.byDate; //default to chronological
+                break;
+        }
+
+        //get sorted list of transactions from DataStore
+        List<Transaction> sorted = dataStore.getSortedTransactions(account.getAccountNumber(), comparator);
+
+        if(sorted.isEmpty()) {
+            System.out.println("\n No transaction history for this account");
             return;
         }
-        InMemoryDataStore store = (InMemoryDataStore) dataStore;
-        List<Transaction> history = store.getTransactionsForAccount(account.getAccountNumber());
-        if (history.isEmpty()) {
-            System.out.println("No transactions found for this account");
-            return;
-        }
-        //sort newest first
-        history.sort((a,b) -> b.getDateTime().compareTo(a.getDateTime()));
+
         System.out.println("\n === Transaction History ===");
-        for (Transaction t : history) {
-            System.out.println(t);
-        }
+        sorted.forEach(System.out::println);
     }
 }

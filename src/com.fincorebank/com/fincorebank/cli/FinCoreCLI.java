@@ -46,7 +46,7 @@ public class FinCoreCLI {
             System.out.println("3. Check Balance");
             System.out.println("4. Exit");
             System.out.println("5. Delete Account");
-            System.out.println("6. View Transaction History");
+            System.out.println("6. View Transaction History (sorted)");
             System.out.println("Please select an option (input number 1-6): ");
             option = scanner.nextLine();
 
@@ -69,15 +69,18 @@ public class FinCoreCLI {
                     option = "4"; //breaks loop and exits
                     break;
                 case "6":
-                    // ServiceHandler has showTransactionHistory, need to cast
-                    if (handler instanceof ServiceHandler) {
-                        ((ServiceHandler) handler).showTransactionHistory(currentAccount);
-                    } else {
-                        System.out.println("Transaction history not available");
-                    }
+                    System.out.println("\nSort transactions by:");
+                    System.out.println("1. Chronological (oldest first)");
+                    System.out.println("2. Reverse chronological (newest first)");
+                    System.out.println("3. Amount (ascending)");
+                    System.out.println("4. Type (alphabetical)");
+                    System.out.print("Choose an option: ");
+                    String sortChoice = scanner.nextLine();
+
+                    handler.showSortedTransactions(currentAccount, sortChoice);
                     break;
                 default: //invalid choices
-                    System.out.println("Invalid choice. Please try again and enter a number between 1 and 6.");
+                    System.out.println("Invalid choice. Please try again and enter a number between 1 and 7.");
                     break;
             }
         } while (!option.equals("4"));

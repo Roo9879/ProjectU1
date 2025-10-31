@@ -68,4 +68,13 @@ public class InMemoryDataStore implements DataStore{
         }
         return all;
     }
+
+    @Override
+    //get transactions for an account sorted by given comparator
+    public List<Transaction> getSortedTransactions(int accountNumber, Comparator<Transaction> comparator) {
+        List<Transaction> list = getTransactionsForAccount(accountNumber); //safe copy of transaction list for account
+
+        list.sort(comparator); //sort list using comparator provided
+        return list;
+    }
 }
